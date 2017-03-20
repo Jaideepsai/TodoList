@@ -1,0 +1,158 @@
+
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="/javascripts/angularApp.js"></script>
+    <style>
+    
+    body {
+	font-size: 14px;
+	background: #eeeeee;
+	color: #333333;
+	width: 520px;
+	margin: 0 auto;
+}
+
+#todoapp {
+	background: #fff;
+	padding: 20px;
+	margin-bottom: 40px;
+}
+
+#todoapp h1 {
+	font-size: 36px;
+	text-align: center;
+}
+
+#todoapp input[type="text"] {
+	width: 466px;
+	font-size: 24px;
+	line-height: 1.4em;
+	padding: 6px;
+}
+
+#main {
+	display: none;
+}
+
+#todo-list {
+	margin: 10px 0;
+	padding: 0;
+	list-style: none;
+}
+
+#todo-list li {
+	padding: 18px 20px 18px 0;
+	position: relative;
+	font-size: 24px;
+	border-bottom: 1px solid #cccccc;
+}
+
+#todo-list li:last-child {
+	border-bottom: none;
+}
+
+#todo-list li .edit {
+    display: none;
+}
+#todo-list li.editing {
+	border-bottom: 1px solid #778899;
+}
+
+#todo-list li.editing .view {
+	display: none;
+}
+#todo-list li.editing .edit {
+	display: block;
+	width: 444px;
+	padding: 13px 15px 14px 20px;
+	margin: 0;
+}
+
+#todo-list li.done label {
+	color: #777777;
+	text-decoration: line-through;
+}
+
+#todo-list li .done-true  {
+    color: #777777;
+    text-decoration: line-through;
+}
+
+#todo-list .destroy {
+	position: absolute;
+	right: 5px;
+	top: 20px;
+	display: none;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+}
+
+#todoapp footer {
+	display: none;
+	margin: 0 -20px -20px -20px;
+	overflow: hidden;
+	color: #555555;
+	background: #f4fce8;
+	border-top: 1px solid #ededed;
+	padding: 0 20px;
+	line-height: 37px;
+}
+
+.todo-count {
+    float:left;    
+}
+
+.todo-count .count{
+    font-weight:bold;    
+}
+
+#clear-completed {
+	float: right;
+	line-height: 20px;
+	text-decoration: none;
+	background: rgba(0, 0, 0, 0.1);
+	color: #555555;
+	font-size: 11px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	padding: 0 10px 1px;
+	cursor: pointer;
+}
+
+    </style>
+<body ng-app="myApp" ng-controller="todoCtrl" id="todoapp">
+<header>
+        <h1>Todos By Jaideep</h1>
+        <input id="new-todo" type="text" ng-model="todoInput"  size="30"
+        placeholder="What needs to be done?" ng-keyup="todoAdd()"/>
+    </header>
+
+    <section id="main" style="display: block;">
+        <div ng-show="isTodo()">
+          <input id="toggle-all" type="checkbox" ng-model="markAll"
+            ng-click="toggleMarkAll()"/>
+          <label for="toggle-all">Mark all as complete</label>
+        </div>
+        
+        <ul id="todo-list" class="unstyled">
+          <li ng-repeat="todo in todoList" ng-dblclick="toggleEditMode()">
+            <div class="view" ng-keyup="editTodo()">
+              <input type="checkbox" ng-model="todo.done"/>
+              <span class="done-{{todo.done}}" >{{todo.todo}}</span>
+            </div>
+            <input class="edit" type="text" ng-model="todo.todo"
+              ng-keyup="editOnEnter(todo)"/>
+          </li>
+        </ul>
+    </section>
+    
+    <footer style="display: block;">
+        <div class="todo-count">{{remaining()}} of {{todoList.length}} remaining</div>
+          <a id="clear-completed" ng-click="remove()" ng-show="hasDone()">
+              Clear <span >{{itemText()}}</span>.
+          </a>
+    </footer>
+    
+        </body></html>
